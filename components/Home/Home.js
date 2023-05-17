@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { AntDesign } from '@expo/vector-icons';
 import { View, Text, Image, StyleSheet, SafeAreaView, TouchableWithoutFeedback, Dimensions } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
 
 import CardBg1 from '../../assets/card_bg1.jpg';
 import CardBg2 from '../../assets/card_bg2.jpg';
@@ -19,7 +20,6 @@ import CardColor5 from '../../assets/color_5.jpg'
 import CardColor6 from '../../assets/color_6.jpg'
 import CardColor7 from '../../assets/color_7.jpg'
 import CardColor8 from '../../assets/color_8.jpg'
-import { FlatList } from 'react-native-gesture-handler';
 
 const deviceheight = Dimensions.get('window').height;
 const { width } = Dimensions.get('window')
@@ -51,92 +51,103 @@ const Home = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.box}>
-        <View style={styles.curtainBox}>
-          <View style={styles.curtain} />
-          <Image source={change} style={styles.image1} />
-        </View>
-        <View style={styles.box2}>
-          <Image source={change} style={styles.image2} />
-          <View style={styles.box3}>
-            <Text style={styles.text1}>1 000 000 000$</Text>
+
+      {/* <View>
+        <View style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, zIndex: 2, backgroundColor: '#000000A9' }} />
+        <Image source={change} style={{ width: '100%', height: '100%' }} />
+      </View> */}
+
+      <View style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, zIndex: 4 }}>
+        <View style={styles.box}>
+          <View style={styles.curtainBox}>
+            <View style={styles.curtain} />
+            <Image source={change} style={styles.image1} />
           </View>
+          <View style={styles.box2}>
+            <Image source={change} style={styles.image2} />
+            <View style={styles.box3}>
+              <Text style={styles.text1}>1 000 000 000$</Text>
+            </View>
 
-          <View style={styles.box4}>
-            <Text style={styles.text2}>Zokirov J</Text>
-            <Text style={styles.text2}>19/08/03</Text>
+            <View style={styles.box4}>
+              <Text style={styles.text2}>Zokirov J</Text>
+              <Text style={styles.text2}>19/08/03</Text>
+            </View>
           </View>
         </View>
-      </View>
-      <View style={styles.box5}>
 
-        <SafeAreaView>
-          <FlatList
-            data={CardBgColor}
-            showsHorizontalScrollIndicator={false}
-            snapToOffsets={[...Array(CardBgColor.length)].map((x, i) => i * (width * 0.8 - 40) + (i - 1) * 40)}
-            horizontal
-            snapToAlignment='start'
-            scrollEventThrottle={16}
-            decelerationRate={'fast'}
-            style={{ marginTop: 20 }}
-            renderItem={({ item }) => (
-              <TouchableWithoutFeedback onPress={() => setChange(item)}>
-                <View style={{ position: 'relative' }} >
+        <View style={styles.box5}>
 
-                  {change === item ?
-                    <View style={{ position: 'absolute', zIndex: 1, marginHorizontal: 10, borderRadius: 12, width: width * 0.8 - 20, height: width / 2.6, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000000AA' }} >
-                      <AntDesign name="checkcircle" size={44} color="green" />
-                    </View> : <View />}
+          <SafeAreaView>
+            <Text style={{color: 'black', fontWeight: '600', fontSize: 17, marginLeft: 10 }}>Choos colors</Text>
+            <FlatList
+              data={CardBgColor}
+              showsHorizontalScrollIndicator={false}
+              snapToOffsets={[...Array(CardBgColor.length)].map((x, i) => i * (width * 0.8 - 40) + (i - 1) * 40)}
+              horizontal
+              snapToAlignment='start'
+              scrollEventThrottle={16}
+              decelerationRate={'fast'}
+              style={{ marginTop: 7 }}
+              renderItem={({ item }) => (
+                <TouchableWithoutFeedback onPress={() => setChange(item)}>
+                  <View style={{ position: 'relative' }} >
 
-                  <Image
-                    source={item}
-                    style={{
-                      height: width / 2.6,
-                      width: width * 0.8 - 20,
-                      marginHorizontal: 10,
-                      borderRadius: 12,
-                    }}
-                  />
-                </View>
-              </TouchableWithoutFeedback>
-            )}
-          />
-        </SafeAreaView>
+                    {change === item ?
+                      <View style={{ position: 'absolute', zIndex: 1, marginHorizontal: 10, borderRadius: 12, width: 250, height: 120, justifyContent: 'center', alignItems: 'center', backgroundColor: '#cccccc55' }} >
+                        <AntDesign name="checkcircle" size={44} color="green" />
+                      </View> : <View />}
 
-        <SafeAreaView>
-          <FlatList
-            data={CardBgImage}
-            showsHorizontalScrollIndicator={false}
-            snapToOffsets={[...Array(CardBgImage.length)].map((x, i) => i * (width * 0.8 - 40) + (i - 1) * 40)}
-            horizontal
-            snapToAlignment='start'
-            scrollEventThrottle={16}
-            decelerationRate={'fast'}
-            style={{ marginTop: 20 }}
-            renderItem={({ item }) => (
-              <TouchableWithoutFeedback onPress={() => setChange(item)}>
-                <View style={{ position: 'relative' }} >
+                    <Image
+                      source={item}
+                      style={{
+                        width: 250,
+                        height: 120,
+                        marginHorizontal: 10,
+                        borderRadius: 12,
+                      }}
+                    />
+                  </View>
+                </TouchableWithoutFeedback>
+              )}
+            />
+          </SafeAreaView>
 
-                  {change === item ?
-                    <View style={{ position: 'absolute', zIndex: 1, marginHorizontal: 10, borderRadius: 12, width: width * 0.8 - 20, height: width / 2.6, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000000AA' }} >
-                      <AntDesign name="checkcircle" size={44} color="green" />
-                    </View> : <View />}
+          <SafeAreaView>
+            <Text style={{color: 'black', fontWeight: '600', fontSize: 17, marginTop: 15, marginLeft: 10}}>Choos image</Text>
+            <FlatList
+              data={CardBgImage}
+              showsHorizontalScrollIndicator={false}
+              snapToOffsets={[...Array(CardBgImage.length)].map((x, i) => i * (width * 0.8 - 40) + (i - 1) * 40)}
+              horizontal
+              snapToAlignment='start'
+              scrollEventThrottle={16}
+              decelerationRate={'fast'}
+              style={{ marginTop: 7 }}
+              renderItem={({ item }) => (
+                <TouchableWithoutFeedback onPress={() => setChange(item)}>
+                  <View style={{ position: 'relative' }} >
 
-                  <Image
-                    source={item}
-                    style={{
-                      height: width / 2.6,
-                      width: width * 0.8 - 20,
-                      marginHorizontal: 10,
-                      borderRadius: 12,
-                    }}
-                  />
-                </View>
-              </TouchableWithoutFeedback>
-            )}
-          />
-        </SafeAreaView>
+                    {change === item ?
+                      <View style={{ position: 'absolute', zIndex: 1, marginHorizontal: 10, borderRadius: 12, width: 250, height: 120, justifyContent: 'center', alignItems: 'center', backgroundColor: '#cccccc55' }} >
+                        <AntDesign name="checkcircle" size={44} color="green" />
+                      </View> : <View />}
+
+                    <Image
+                      source={item}
+                      style={{
+                        width: 250,
+                        height: 120,
+                        marginHorizontal: 10,
+                        borderRadius: 12,
+                      }}
+                    />
+                  </View>
+                </TouchableWithoutFeedback>
+              )}
+            />
+          </SafeAreaView>
+        </View>
       </View>
     </View>
   );
@@ -146,12 +157,14 @@ export default Home;
 
 const styles = StyleSheet.create({
   container: {
+    position: 'relative',
     height: "100%",
   },
   box: {
     position: "relative",
     height: "30%",
     alignItems: 'center',
+
   },
   box2: {
     position: 'absolute',
