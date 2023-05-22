@@ -4,35 +4,32 @@ import { Ionicons } from '@expo/vector-icons';
 import BgImage from '../../assets/LogRegBgImage.png'
 import { useNavigation } from '@react-navigation/native';
 
-const Login = () => {
+const ForgotPass = () => {
   const [onnOff, setOnnOff] = useState('eye-off');
 
   const navigation = useNavigation();
 
-  const goToForgot = () => {
-    navigation.navigate('Forgot');
+  const goToNewPassword = () => {
+    navigation.navigate('NewPassword');
   }
 
   return (
     <View style={style.container}>
       <View style={style.bigBox}>
         <View style={style.box}>
-          <Text style={style.log}>LOGIN</Text>
+          <Text style={style.log}>FORGOT</Text>
+          <Text style={style.for}>Enter the password received in your gmail mail !</Text>
           <View style={style.inputBox}>
-            <TextInput style={style.loginp} keyboardType='email-address' placeholder='EMAIL'></TextInput>
             <View style={{ position: 'relative' }}>
               <TextInput style={style.loginp} secureTextEntry={onnOff === 'eye-off' ? true : false} placeholder='PASSWORD'></TextInput>
               <TouchableOpacity style={{ position: 'absolute', top: 10, right: 15, }} onPress={() => setOnnOff(onnOff === 'eye-off' ? 'eye' : 'eye-off')}>
                 <Ionicons name={onnOff} size={24} color="black" />
               </TouchableOpacity>
-              <TouchableOpacity onPress={goToForgot}>
-                <Text style={style.forgotText}>Forgot password</Text>
-              </TouchableOpacity>
             </View>
           </View>
-          <TouchableOpacity style={{ width: '85%' }}>
+          <TouchableOpacity style={{ width: '85%' }} onPress={goToNewPassword}>
             <View style={style.loginBox}>
-              <Text style={style.text}>LOGIN</Text>
+              <Text style={style.text}>NEXT</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -42,7 +39,7 @@ const Login = () => {
   )
 }
 
-export default Login;
+export default ForgotPass;
 
 
 const style = StyleSheet.create({
@@ -53,7 +50,7 @@ const style = StyleSheet.create({
   },
   bigBox: {
     position: 'absolute',
-    top: 170,
+    top: 220,
     zIndex: 2,
     width: '100%',
     height: '100%',
@@ -61,7 +58,7 @@ const style = StyleSheet.create({
   },
   box: {
     width: '90%',
-    height: '50%',
+    height: '40%',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingVertical: 40,
@@ -74,6 +71,13 @@ const style = StyleSheet.create({
     fontWeight: '700',
     fontSize: 24,
     color: '#FFF',
+  },
+  for: {
+    width: '72%',
+    fontWeight: '700',
+    fontSize: 18,
+    color: '#FFF',
+    textAlign: 'center',
   },
   inputBox: {
     width: '85%',
@@ -91,15 +95,6 @@ const style = StyleSheet.create({
     backgroundColor: '#FFFFFFAA',
     borderWidth: 2,
     borderColor: '#0E89CB'
-  },
-  forgotText: {
-    marginTop: 10,
-    marginRight: 5,
-    fontWeight: '500',
-    fontSize: 15,
-    color: '#0E89CB',
-    textAlign: 'right',
-    textDecorationLine: 'underline',
   },
   loginBox: {
     backgroundColor: '#0E89CB',

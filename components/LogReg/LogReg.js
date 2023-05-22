@@ -10,35 +10,35 @@ const LogReg = () => {
     navigation.navigate('Login');
     handleIndex(1)
   }
-  
+
   const goToRegister = () => {
     navigation.navigate('Register');
     handleIndex(2)
   }
-  
+
   const [activeIndex, setActiveIndex] = useState(1)
 
   const handleIndex = (activeIndex) => {
     setActiveIndex(activeIndex)
   }
   return (
-    <View style={style.container}>
-      <View style={style.box}>
+      <View style={style.container}>
+        <View style={style.box}>
 
-        <TouchableOpacity onPress={goToLogin}>
-          <View style={[style.registerBox, activeIndex === 1 && style.active]}>
-            <Text style={style.text}>LOGIN</Text>
-          </View>
-        </TouchableOpacity>
+          <TouchableOpacity onPress={goToLogin}>
+            <View style={[style.registerBox, activeIndex === 1 && style.active]}>
+              <Text style={style.text}>LOGIN</Text>
+            </View>
+          </TouchableOpacity>
 
-        <TouchableOpacity onPress={goToRegister}>
-          <View style={[style.loginBox, activeIndex === 2 && style.active]}>
-            <Text style={style.text}>REGISTER</Text>
-          </View>
-        </TouchableOpacity>
+          <TouchableOpacity onPress={goToRegister}>
+            <View style={[style.loginBox, activeIndex === 2 && style.active]}>
+              <Text style={style.text}>REGISTER</Text>
+            </View>
+          </TouchableOpacity>
 
+        </View>
       </View>
-    </View>
   )
 }
 
@@ -47,7 +47,7 @@ export default LogReg
 const style = StyleSheet.create({
   container: {
     position: 'absolute',
-    bottom: 100,
+    bottom: 30,
     zIndex: 7,
     width: '100%',
     alignItems: 'center',
