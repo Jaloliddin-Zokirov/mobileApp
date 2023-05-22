@@ -5,6 +5,8 @@ import { EventRegister } from 'react-native-event-listeners';
 import ThemeContext from './components/Theme/ThemeContext';
 import Theme from './components/Theme/Theme';
 import AppNavigation from './AppNavigation/AppNavigation';
+import LogReg from './components/LogReg/LogReg';
+import LogRegNavigation from './AppNavigation/LogRegNavigation';
 
 const App = () => {
   const [mode, setMode] = useState(false)
@@ -25,6 +27,8 @@ const App = () => {
     <>
       <ThemeContext.Provider value={mode === true ? Theme.dark : Theme.light}>
         <NavigationContainer>
+          {/* <LogRegNavigation />
+          <LogReg /> */}
           <AppNavigation />
           <Footer />
         </NavigationContainer>

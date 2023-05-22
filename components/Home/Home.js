@@ -52,11 +52,6 @@ const Home = () => {
   return (
     <View style={styles.container}>
 
-      {/* <View>
-        <View style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, zIndex: 2, backgroundColor: '#000000A9' }} />
-        <Image source={change} style={{ width: '100%', height: '100%' }} />
-      </View> */}
-
       <View style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, zIndex: 4 }}>
         <View style={styles.box}>
           <View style={styles.curtainBox}>
@@ -164,7 +159,6 @@ const styles = StyleSheet.create({
     position: "relative",
     height: "30%",
     alignItems: 'center',
-
   },
   box2: {
     position: 'absolute',
@@ -175,29 +169,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderWidth: 2,
     borderColor: "#0E89CB",
-  },
-  changeBig: {
-    backgroundColor: 'gray',
-    width: '100%',
-    borderTopRightRadius: 10,
-    borderTopLeftRadius: 10,
-    paddingHorizontal: 10,
-    maxHeight: deviceheight * 0.4
-  },
-  changeBox: {
-    flexDirection: 'row',
-    width: '100%',
-    height: 400,
-    paddingVertical: 30,
-    gap: 30,
-  },
-  change: {
-    gap: 30,
-  },
-  changeImage: {
-    width: 170,
-    height: 110,
-    borderRadius: 7,
   },
   curtainBox: {
     position: 'relative',

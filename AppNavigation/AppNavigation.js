@@ -7,6 +7,7 @@ import Profil from "../components/Profil/Profil"
 import Info from "../components/Info/Info"
 import Input from "../components/Input/Input"
 import Output from "../components/Output/Output"
+import Settings from "../components/Settings/Settings"
 
 
 export default AppNavigation = () => {
@@ -19,6 +20,7 @@ export default AppNavigation = () => {
       <Stack.Screen navigationKey='Info' name="Info" component={Info} />
       <Stack.Screen navigationKey='Input' name="Input" component={Input} />
       <Stack.Screen navigationKey='Output' name="Output" component={Output} />
+      <Stack.Screen navigationKey='Settings' name="Settings" component={Settings} />
     </Stack.Navigator>
   )
 }

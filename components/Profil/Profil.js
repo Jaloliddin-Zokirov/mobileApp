@@ -1,18 +1,46 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, Modal, SafeAreaView, TouchableWithoutFeedback, Dimensions, Switch } from 'react-native'
+import { View, Text, StyleSheet, Modal, SafeAreaView, TouchableWithoutFeedback, Dimensions, TouchableOpacity, Button, Pressable, Platform } from 'react-native'
 import { Entypo, Ionicons, MaterialIcons } from '@expo/vector-icons';
-import RadioForm from 'react-native-simple-radio-button';
-import { EventRegister } from 'react-native-event-listeners';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { AntDesign } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 const deviceheight = Dimensions.get('window').height;
 
 const Profil = () => {
 
+  const navigation = useNavigation();
+
+  const GoToOutput = () => {
+    navigation.navigate('Settings');
+  };
+
   const [showEmail, setShowEmail] = useState(false);
-  const [showDate, setShowDate] = useState(false);
   const [showGander, setShowGander] = useState(false);
   const [showLogOut, setShowLogOut] = useState(false);
-  const [changeGander, setChangeGander] = useState('Male');
+  const [changeGander, setChangeGander] = useState('');
+
+  const [date, setDate] = useState(new Date());
+  const [showPicker, setShowPicker] = useState(false);
+  const [dateOfBrith, setDateOfBrith] = useState('')
+
+  const toggleDispatch = () => {
+    setShowPicker(!showPicker)
+  }
+
+  const onChange = ({ type }, selectedDate) => {
+    if (type == 'set') {
+      const currentDate = selectedDate
+      setDate(currentDate)
+
+      if (Platform.OS === 'android') {
+        toggleDispatch()
+        setDateOfBrith(currentDate.toDateString())
+      }
+    } else {
+      toggleDispatch()
+    }
+  }
 
   const renderOutsideTouchable = (onTouch) => {
     const view = <View style={{ flex: 1, width: '100%' }} />;
@@ -31,14 +59,6 @@ const Profil = () => {
 
   const onCloseEmail = () => {
     setShowEmail(false)
-  };
-
-  const onShowDate = () => {
-    setShowDate(true)
-  };
-
-  const onCloseDate = () => {
-    setShowDate(false)
   };
 
   const onShowGander = () => {
@@ -62,14 +82,6 @@ const Profil = () => {
     setShowGander(false)
   }
 
-  const items = [
-    { label: 'Male', value: 'Male' },
-    { label: 'Female', value: 'Female' }
-  ]
-
-  const [mode, setMode] = useState(false)
-
-
   return (
     <View style={style.box}>
 
@@ -88,17 +100,17 @@ const Profil = () => {
 
       <View style={style.center}>
 
-        <View style={style.centerTop}>
-          <Text style={style.centerText1}>Email:</Text>
-          <SafeAreaView >
-            <TouchableWithoutFeedback onPress={onShowEmail}>
+        <SafeAreaView >
+          <TouchableWithoutFeedback onPress={onShowEmail}>
+            <View style={style.centerTop}>
+              <Text style={style.centerText1}>Email:</Text>
               <View style={style.centerEmail}>
                 <Text style={style.email}>username@gmail.com</Text>
-                <MaterialIcons name="keyboard-arrow-right" size={24} color="#999" />
+                <MaterialIcons name="keyboard-arrow-right" size={24} color="#00000077" />
               </View>
-            </TouchableWithoutFeedback>
-          </SafeAreaView>
-        </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </SafeAreaView>
 
         <Modal
           animationType="fade"
@@ -116,48 +128,33 @@ const Profil = () => {
           </View>
         </Modal>
 
-
-
-        <View style={style.centerCenter}>
-          <Text style={style.centerText1}>Date of birth:</Text>
-          <SafeAreaView >
-            <TouchableWithoutFeedback onPress={onShowDate}>
+        <SafeAreaView >
+          <Pressable onPress={toggleDispatch}>
+            <View style={style.centerCenter}>
+              <Text style={style.centerText1}>Date of birth:</Text>
               <View style={style.centerEmail}>
-                <Text style={style.email}>19.08.2003</Text>
-                <MaterialIcons name="keyboard-arrow-right" size={24} color="#999" />
-              </View>
-            </TouchableWithoutFeedback>
-          </SafeAreaView>
-        </View>
-
-        <Modal
-          animationType="fade"
-          transparent={true}
-          visible={showDate}
-          onRequestClose={onCloseDate}
-        >
-          <View style={{ flex: 1, backgroundColor: '#000000AA', justifyContent: 'flex-end', }}>
-            {renderOutsideTouchable(onCloseDate)}
-            <View style={style.changeBig}>
-              <View style={style.changeBox}>
-                <Text>Date</Text>
+                <Text style={style.email}>{dateOfBrith}</Text>
+                <MaterialIcons name="keyboard-arrow-right" size={24} color="#00000077" />
               </View>
             </View>
-          </View>
-        </Modal>
+          </Pressable>
+        </SafeAreaView>
 
+        {showPicker && (
+          <DateTimePicker mode="date" display='spinner' value={date} onChange={onChange} />
+        )}
 
-        <View style={style.centerBottom}>
-          <Text style={style.centerText1}>Gander:</Text>
-          <SafeAreaView >
-            <TouchableWithoutFeedback onPress={onShowGander}>
+        <SafeAreaView >
+          <TouchableWithoutFeedback onPress={onShowGander}>
+            <View style={style.centerBottom}>
+              <Text style={style.centerText1}>Gander:</Text>
               <View style={style.centerEmail}>
                 <Text style={style.email}>{changeGander}</Text>
-                <MaterialIcons name="keyboard-arrow-right" size={24} color="#999" />
+                <MaterialIcons name="keyboard-arrow-right" size={24} color="#00000077" />
               </View>
-            </TouchableWithoutFeedback>
-          </SafeAreaView>
-        </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </SafeAreaView>
 
         <Modal
           animationType="fade"
@@ -169,7 +166,18 @@ const Profil = () => {
             {renderOutsideTouchable(onCloseGander)}
             <View style={style.changeBig}>
               <View style={style.changeBoxGender}>
-                <RadioForm style={style.radio} radio_props={items} initial={changeGander} onPress={(value) => handleChange(value)} />
+                <View style={style.ganderList}>
+                  <TouchableWithoutFeedback onPress={() => handleChange('MALE')}>
+                    <View style={style.gander}>
+                      <Text style={style.ganderText}>MALE</Text>
+                    </View>
+                  </TouchableWithoutFeedback>
+                  <TouchableWithoutFeedback onPress={() => handleChange('FAMALE')}>
+                    <View style={style.gander}>
+                      <Text style={style.ganderText}>FAMALE</Text>
+                    </View>
+                  </TouchableWithoutFeedback>
+                </View>
               </View>
             </View>
           </View>
@@ -179,21 +187,21 @@ const Profil = () => {
       </View>
 
       <View style={style.bottom}>
-        <View style={style.settings}>
-          <Text style={style.settingsText1}>Thema:</Text>
-          <Switch value={mode} onValueChange={(value) => { setMode(value); EventRegister.emit('ChangeTheme', value) }} />
-        </View>
+        <TouchableOpacity style={style.settings} onPress={GoToOutput}>
+          <Text style={style.settingsText1}>Settings</Text>
+          <AntDesign name="setting" size={24} color="black" />
+        </TouchableOpacity>
 
 
 
-        <View style={style.logout}>
-          <Text style={style.logoutText1}>Log Out:</Text>
-          <SafeAreaView >
-            <TouchableWithoutFeedback onPress={onShowLogOut}>
+        <SafeAreaView >
+          <TouchableWithoutFeedback onPress={onShowLogOut}>
+            <View style={style.logout}>
+              <Text style={style.logoutText1}>Log Out</Text>
               <MaterialIcons name="logout" size={24} color="black" />
-            </TouchableWithoutFeedback>
-          </SafeAreaView>
-        </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </SafeAreaView>
 
         <Modal
           animationType="fade"
@@ -205,13 +213,23 @@ const Profil = () => {
             {renderOutsideTouchable(onCloseLogOut)}
             <View style={style.changeBig}>
               <View style={style.changeBox}>
-                <Text >LogOut</Text>
+                <Text style={style.logoutText} >Do you want to log out?</Text>
+                <View style={style.buttonList}>
+                  <TouchableWithoutFeedback onPress={onCloseLogOut}>
+                    <View style={style.button}>
+                      <Text style={style.buttonText}>CLOSE</Text>
+                    </View>
+                  </TouchableWithoutFeedback>
+                  <TouchableWithoutFeedback >
+                    <View style={style.button}>
+                      <Text style={style.buttonText}>EXIT</Text>
+                    </View>
+                  </TouchableWithoutFeedback>
+                </View>
               </View>
             </View>
           </View>
         </Modal>
-
-
 
       </View>
     </View>
@@ -222,7 +240,6 @@ export default Profil
 
 const style = StyleSheet.create({
   box: {
-    backgroundColor: "#ccc",
     height: "100%",
     alignItems: "center",
   },
@@ -240,16 +257,18 @@ const style = StyleSheet.create({
     maxHeight: deviceheight * 0.4
   },
   changeBox: {
-    flexDirection: 'row',
+    flexDirection: 'column',
+    alignItems: 'center',
     width: '100%',
     height: 270,
-    paddingVertical: 30,
-    gap: 30,
+    paddingVertical: 50,
+    gap: 70,
   },
   changeBoxGender: {
     flexDirection: 'row',
     width: '100%',
     height: 140,
+    justifyContent: 'center',
     paddingVertical: 30,
     gap: 30,
   },
@@ -267,7 +286,7 @@ const style = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 50,
-    backgroundColor: "#EB7BC0",
+    backgroundColor: "#0E89CB",
   },
   avatar2Box: {
     position: "absolute",
@@ -275,7 +294,7 @@ const style = StyleSheet.create({
     right: -7,
     width: 35,
     height: 35,
-    backgroundColor: "#EB7BC0",
+    backgroundColor: "#0E89CB",
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
@@ -303,7 +322,7 @@ const style = StyleSheet.create({
   },
   center: {
     width: "90%",
-    backgroundColor: "white",
+    backgroundColor: "#0E89CBEE",
     marginTop: 30,
     padding: 20,
     borderRadius: 20,
@@ -314,7 +333,7 @@ const style = StyleSheet.create({
     alignItems: "center",
     paddingBottom: 14,
     borderBottomWidth: 1,
-    borderBottomColor: "#999",
+    borderBottomColor: "#00000077",
   },
   centerCenter: {
     flexDirection: "row",
@@ -323,7 +342,7 @@ const style = StyleSheet.create({
     paddingTop: 14,
     paddingBottom: 14,
     borderBottomWidth: 1,
-    borderBottomColor: "#999",
+    borderBottomColor: "#00000077",
   },
   centerBottom: {
     flexDirection: "row",
@@ -342,11 +361,11 @@ const style = StyleSheet.create({
   email: {
     fontWeight: "600",
     fontSize: 16,
-    color: "#999",
+    color: "#00000077",
   },
   bottom: {
     width: "90%",
-    backgroundColor: "white",
+    backgroundColor: "#0E89CBEE",
     marginTop: 30,
     padding: 20,
     borderRadius: 20,
@@ -358,7 +377,7 @@ const style = StyleSheet.create({
     paddingBottom: 15,
     marginBottom: 15,
     borderBottomWidth: 1,
-    borderColor: '#999'
+    borderColor: '#00000077'
   },
   settingsText1: {
     fontSize: 17,
@@ -369,8 +388,46 @@ const style = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  logoutText: {
+    fontSize: 20,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
   logoutText1: {
     fontSize: 17,
     fontWeight: 600,
   },
+  buttonList: {
+    flexDirection: 'row',
+    gap: 30,
+  },
+  button: {
+    width: 120,
+    paddingVertical: 12,
+    alignItems: 'center',
+    backgroundColor: '#0E89CB',
+    borderRadius: 10,
+  },
+  buttonText: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: 'white',
+  },
+  ganderList: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 30,
+  },
+  gander: {
+    width: 120,
+    paddingVertical: 12,
+    alignItems: 'center',
+    backgroundColor: '#0E89CB',
+    borderRadius: 10,
+  },
+  ganderText: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: 'white',
+  }
 })
