@@ -27,10 +27,10 @@ const App = () => {
     <>
       <ThemeContext.Provider value={mode === true ? Theme.dark : Theme.light}>
         <NavigationContainer>
-          <LogRegNavigation />
-          <LogReg />
-          {/* <AppNavigation />
-          <Footer /> */}
+          {/* <LogRegNavigation />
+          <LogReg /> */}
+          <AppNavigation />
+          <Footer />
         </NavigationContainer>
       </ThemeContext.Provider>
     </>

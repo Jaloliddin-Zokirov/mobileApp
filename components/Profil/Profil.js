@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, Modal, SafeAreaView, TouchableWithoutFeedback, Dimensions, TouchableOpacity, Button, Pressable, Platform } from 'react-native'
+import { View, Text, StyleSheet, Modal, SafeAreaView, TouchableWithoutFeedback, Dimensions, TouchableOpacity, Button, Pressable, Platform, TextInput } from 'react-native'
 import { Entypo, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { AntDesign } from '@expo/vector-icons';
@@ -14,6 +14,8 @@ const Profil = () => {
   const GoToOutput = () => {
     navigation.navigate('Settings');
   };
+
+  const [editEmail, setEditEmail] = useState('');
 
   const [showEmail, setShowEmail] = useState(false);
   const [showGander, setShowGander] = useState(false);
@@ -105,7 +107,7 @@ const Profil = () => {
             <View style={style.centerTop}>
               <Text style={style.centerText1}>Email:</Text>
               <View style={style.centerEmail}>
-                <Text style={style.email}>username@gmail.com</Text>
+                <Text style={style.email}>{editEmail}</Text>
                 <MaterialIcons name="keyboard-arrow-right" size={24} color="#00000077" />
               </View>
             </View>
@@ -121,8 +123,12 @@ const Profil = () => {
           <View style={{ flex: 1, backgroundColor: '#000000AA', justifyContent: 'flex-end', }}>
             {renderOutsideTouchable(onCloseEmail)}
             <View style={style.changeBig}>
-              <View style={style.changeBox}>
-                <Text>Email</Text>
+              <View style={style.changeBoxEmail}>
+                <Text style={style.emailTitle}>Email</Text>
+                <TextInput style={style.emailModal} keyboardType='email-address' onChange={item => { setEditEmail(item.nativeEvent.text) }} placeholder='Enter your email address'></TextInput>
+                <TouchableOpacity onPress={onCloseEmail}>
+                  <Text style={style.save}>SAVE</Text>
+                </TouchableOpacity>
               </View>
             </View>
           </View>
@@ -271,6 +277,41 @@ const style = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 30,
     gap: 30,
+  },
+  changeBoxEmail: {
+    flexDirection: 'column',
+    width: '100%',
+    height: 300,
+    justifyContent: 'center',
+    alignItems: "center",
+    paddingVertical: 30,
+    gap: 50,
+  },
+  emailTitle: {
+    fontSize: 20,
+    fontWeight: 700,
+    color: "black",
+  },
+  emailModal: {
+    width: "90%",
+    paddingVertical: 12,
+    paddingHorizontal: 15,
+    borderWidth: 1,
+    borderColor: "black",
+    borderRadius: 15,
+    color: "black",
+    fontSize: 18,
+  },
+  save: {
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+    width: 300,
+    backgroundColor: "#0E89CB",
+    fontWeight: 700,
+    fontSize: 18,
+    textAlign: "center",
+    color: "white",
+    borderRadius: 15,
   },
   radio: {
     width: '100%',

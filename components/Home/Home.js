@@ -89,7 +89,7 @@ const Home = () => {
                   <View style={{ position: 'relative' }} >
 
                     {change === item ?
-                      <View style={{ position: 'absolute', zIndex: 1, marginHorizontal: 10, borderRadius: 12, width: 250, height: 120, justifyContent: 'center', alignItems: 'center', backgroundColor: '#cccccc55' }} >
+                      <View style={{ position: 'absolute', zIndex: 1, marginHorizontal: 10, borderRadius: 12, width: 250, height: 120, justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFFFFF55' }} >
                         <AntDesign name="checkcircle" size={44} color="green" />
                       </View> : <View />}
 
@@ -124,7 +124,7 @@ const Home = () => {
                   <View style={{ position: 'relative' }} >
 
                     {change === item ?
-                      <View style={{ position: 'absolute', zIndex: 1, marginHorizontal: 10, borderRadius: 12, width: 250, height: 120, justifyContent: 'center', alignItems: 'center', backgroundColor: '#cccccc55' }} >
+                      <View style={{ position: 'absolute', zIndex: 1, marginHorizontal: 10, borderRadius: 12, width: 250, height: 120, justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFFFFF55' }} >
                         <AntDesign name="checkcircle" size={44} color="green" />
                       </View> : <View />}
 
@@ -159,6 +159,7 @@ const styles = StyleSheet.create({
     position: "relative",
     height: "30%",
     alignItems: 'center',
+
   },
   box2: {
     position: 'absolute',
@@ -169,6 +170,29 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderWidth: 2,
     borderColor: "#0E89CB",
+  },
+  changeBig: {
+    backgroundColor: 'gray',
+    width: '100%',
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10,
+    paddingHorizontal: 10,
+    maxHeight: deviceheight * 0.4
+  },
+  changeBox: {
+    flexDirection: 'row',
+    width: '100%',
+    height: 400,
+    paddingVertical: 30,
+    gap: 30,
+  },
+  change: {
+    gap: 30,
+  },
+  changeImage: {
+    width: 170,
+    height: 110,
+    borderRadius: 7,
   },
   curtainBox: {
     position: 'relative',
