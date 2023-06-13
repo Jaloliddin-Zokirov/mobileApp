@@ -26,7 +26,7 @@ const Footer = () => {
   };
 
   const GoToHistory = () => {
-    navigation.navigate('Info');
+    navigation.navigate('History');
     handleButtonPress(4)
   };
 

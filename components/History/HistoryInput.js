@@ -1,14 +1,14 @@
 import React from 'react'
 import { Text, View } from 'react-native'
 
-const Info = () => {
+const HistoryInput = () => {
   return (
     <View>
       <Text>
-      Info
+        HistoryInput
       </Text>
     </View>
   )
 }
 
-export default Info
+export default HistoryInput

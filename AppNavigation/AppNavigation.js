@@ -4,10 +4,12 @@ import { createStackNavigator } from "@react-navigation/stack"
 
 import Home from "../components/Home/Home"
 import Profil from "../components/Profil/Profil"
-import Info from "../components/Info/Info"
+import History from "../components/History/History"
 import Input from "../components/Input/Input"
 import Output from "../components/Output/Output"
 import Settings from "../components/Settings/Settings"
+import HistoryInput from "../components/History/HistoryInput"
+import HistoryOutput from "../components/History/HistoryOutput"
 
 
 export default AppNavigation = () => {
@@ -17,10 +19,12 @@ export default AppNavigation = () => {
     <Stack.Navigator>
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen navigationKey='Profile' name="Profile" component={Profil} />
-      <Stack.Screen navigationKey='Info' name="Info" component={Info} />
+      <Stack.Screen navigationKey='History' name="History" component={History} />
       <Stack.Screen navigationKey='Input' name="Input" component={Input} />
       <Stack.Screen navigationKey='Output' name="Output" component={Output} />
       <Stack.Screen navigationKey='Settings' name="Settings" component={Settings} />
+      <Stack.Screen navigationKey="HistoryInput" name="HistoryInput" component={HistoryInput} />
+      <Stack.Screen navigationKey='HistoryOutput' name="HistoryOutput" component={HistoryOutput} />
     </Stack.Navigator>
   )
 }
