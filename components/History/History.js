@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native'
 import HistoryInput from './HistoryInput';
 import HistoryOutput from './HistoryOutput';
+import { StoreContext } from '../StoreWrapper/StoreWrapper';
+import { useContext } from 'react';
 
 const History = () => {
+  const {themeColor} = useContext(StoreContext)
 
   const goToInput = () => {
     handleIndex(1)
@@ -19,7 +22,7 @@ const History = () => {
     setActiveIndex(activeIndex)
   }
   return (
-    <View style={style.history}>
+    <View style={[style.history, themeColor === true && {backgroundColor: '#111'}]}>
       <View style={style.container}>
         <View style={style.box}>
 
@@ -48,6 +51,8 @@ export default History
 const style = StyleSheet.create({
   history: {
     position: "relative",
+    height: '100%',
+    marginTop: 80,
   },
   container: {
     position: 'absolute',
@@ -78,10 +83,11 @@ const style = StyleSheet.create({
   text: {
     fontSize: 18,
     fontWeight: '600',
+    color: 'black',
   },
   active: {
     paddingVertical: 12,
-    paddingHorizontal: 62.5,
+    paddingHorizontal: 63.5,
     borderRadius: 12,
     backgroundColor: '#0E89CB',
   },

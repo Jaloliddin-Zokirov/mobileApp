@@ -1,13 +1,24 @@
-import React from 'react'
-import { View, Text, StyleSheet, Image } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react'
+import { View, Text, StyleSheet, Image, Switch } from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
 import CardBg8 from '../../assets/card_bg8.jpg';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { StoreContext } from '../StoreWrapper/StoreWrapper';
 
 const Settings = () => {
+    const { dispatch, themeColor } = useContext(StoreContext)
+
+    const [isEnabled, setIsEnabled] = useState(themeColor);
+
+    useEffect(() => {
+        dispatch({
+            type: 'themeColor',
+            payload: isEnabled,
+          })
+    }, [isEnabled])
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, themeColor === true && styles.bgDark]}>
             <View style={styles.box}>
                 <View style={styles.box2}>
                     <Image source={CardBg8} style={styles.image2} />
@@ -21,37 +32,40 @@ const Settings = () => {
 
             <View style={styles.center}>
 
-                <View style={styles.centerItem}>
-                    <Text style={styles.centerText1}>PIN code:</Text>
-                    <TouchableWithoutFeedback >
+                <TouchableWithoutFeedback >
+                    <View style={styles.centerItem}>
+                        <Text style={[styles.centerText1, themeColor === true && styles.colorDark]}>PIN code:</Text>
                         <View style={styles.centerContent}>
                             <AntDesign name="arrowright" size={24} color="#999" />
                         </View>
-                    </TouchableWithoutFeedback>
-                </View>
-                <View style={styles.centerItem}>
-                    <Text style={styles.centerText1}>Block Card:</Text>
-                    <TouchableWithoutFeedback >
+                    </View>
+                </TouchableWithoutFeedback>
+                <TouchableWithoutFeedback >
+                    <View style={styles.centerItem}>
+                        <Text style={[styles.centerText1, themeColor === true && styles.colorDark]}>Block Card:</Text>
                         <View style={styles.centerContent}>
                             <AntDesign name="arrowright" size={24} color="#999" />
                         </View>
-                    </TouchableWithoutFeedback>
-                </View>
-                <View style={styles.centerItem}>
-                    <Text style={styles.centerText1}>Limit:</Text>
-                    <TouchableWithoutFeedback >
+                    </View>
+                </TouchableWithoutFeedback>
+                <TouchableWithoutFeedback >
+                    <View style={styles.centerItem}>
+                        <Text style={[styles.centerText1, themeColor === true && styles.colorDark]}>Language:</Text>
                         <View style={styles.centerContent}>
                             <AntDesign name="arrowright" size={24} color="#999" />
                         </View>
-                    </TouchableWithoutFeedback>
-                </View>
+                    </View>
+                </TouchableWithoutFeedback>
                 <View style={styles.centerItem}>
-                    <Text style={styles.centerText1}>Theme:</Text>
-                    <TouchableWithoutFeedback >
-                        <View style={styles.centerContent}>
-                            <AntDesign name="arrowright" size={24} color="#999" />
-                        </View>
-                    </TouchableWithoutFeedback>
+                    <Text style={[styles.centerText1, themeColor === true && styles.colorDark]}>Theme:</Text>
+                    <View style={styles.centerContent}>
+                        <Text style={[styles.centerText1, themeColor === true && styles.colorDark]}>{isEnabled ? 'dark' : 'light'}</Text>
+                        <TouchableWithoutFeedback onPress={() => setIsEnabled(isEnabled ? false : true)}>
+                            <Switch
+                                value={isEnabled}
+                            />
+                        </TouchableWithoutFeedback>
+                    </View>
                 </View>
             </View>
         </View>
@@ -63,6 +77,8 @@ export default Settings
 const styles = StyleSheet.create({
     container: {
         height: "100%",
+        marginTop: 50,
+        backgroundColor: 'white',
     },
     box: {
         height: "38%",
@@ -116,6 +132,8 @@ const styles = StyleSheet.create({
     },
     centerContent: {
         flexDirection: 'row',
+        alignItems: 'center',
+        gap: 15,
     },
     centerText1: {
         fontWeight: "600",
@@ -126,4 +144,10 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: "#999",
     },
+    bgDark: {
+        backgroundColor: '#111',
+    },
+    colorDark: {
+        color: 'white',
+    }
 })

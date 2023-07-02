@@ -17,14 +17,14 @@ export default AppNavigation = () => {
 
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen navigationKey='Profile' name="Profile" component={Profil} />
-      <Stack.Screen navigationKey='History' name="History" component={History} />
-      <Stack.Screen navigationKey='Input' name="Input" component={Input} />
-      <Stack.Screen navigationKey='Output' name="Output" component={Output} />
-      <Stack.Screen navigationKey='Settings' name="Settings" component={Settings} />
-      <Stack.Screen navigationKey="HistoryInput" name="HistoryInput" component={HistoryInput} />
-      <Stack.Screen navigationKey='HistoryOutput' name="HistoryOutput" component={HistoryOutput} />
+      <Stack.Screen name="Home" component={Home} options={{headerShown: false}}/>
+      <Stack.Screen navigationKey='Profile' name="Profile" component={Profil} options={{headerShown: false}}/>
+      <Stack.Screen navigationKey='History' name="History" component={History} options={{headerShown: false}}/>
+      <Stack.Screen navigationKey='Input' name="Input" component={Input} options={{headerShown: false}}/>
+      <Stack.Screen navigationKey='Output' name="Output" component={Output} options={{headerShown: false}}/>
+      <Stack.Screen navigationKey='Settings' name="Settings" component={Settings} options={{headerShown: false}}/>
+      <Stack.Screen navigationKey="HistoryInput" name="HistoryInput" component={HistoryInput} options={{headerShown: false}}/>
+      <Stack.Screen navigationKey='HistoryOutput' name="HistoryOutput" component={HistoryOutput} options={{headerShown: false}}/>
     </Stack.Navigator>
   )
 }

@@ -1,13 +1,15 @@
-import React, { useState } from 'react'
-import { View, Text, StyleSheet, Modal, SafeAreaView, TouchableWithoutFeedback, Dimensions, TouchableOpacity, Button, Pressable, Platform, TextInput } from 'react-native'
+import React, { useState, useContext } from 'react'
+import { View, Text, StyleSheet, Modal, SafeAreaView, TouchableWithoutFeedback, Dimensions, TouchableOpacity, Image, Pressable, Platform, TextInput } from 'react-native'
 import { Entypo, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { StoreContext } from '../StoreWrapper/StoreWrapper';
 
 const deviceheight = Dimensions.get('window').height;
 
 const Profil = () => {
+  const { dispatch, theme, dateOfBirth, name, company, gander, email } = useContext(StoreContext)
 
   const navigation = useNavigation();
 
@@ -16,15 +18,17 @@ const Profil = () => {
   };
 
   const [editEmail, setEditEmail] = useState('');
+  const [editName, setEditName] = useState('');
+  const [editCompanyName, setEditCompanyName] = useState('');
 
   const [showEmail, setShowEmail] = useState(false);
+  const [showName, setShowName] = useState(false);
+  const [showCompanyName, setShowCompanyName] = useState(false);
   const [showGander, setShowGander] = useState(false);
   const [showLogOut, setShowLogOut] = useState(false);
-  const [changeGander, setChangeGander] = useState('');
 
   const [date, setDate] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
-  const [dateOfBrith, setDateOfBrith] = useState('')
 
   const toggleDispatch = () => {
     setShowPicker(!showPicker)
@@ -37,13 +41,15 @@ const Profil = () => {
 
       if (Platform.OS === 'android') {
         toggleDispatch()
-        setDateOfBrith(currentDate.toDateString())
+        dispatch({
+          type: "dateOfBirth",
+          payload: currentDate.toDateString()
+        })
       }
     } else {
       toggleDispatch()
     }
   }
-
   const renderOutsideTouchable = (onTouch) => {
     const view = <View style={{ flex: 1, width: '100%' }} />;
     if (!onTouch) return view;
@@ -61,6 +67,34 @@ const Profil = () => {
 
   const onCloseEmail = () => {
     setShowEmail(false)
+    dispatch({
+      type: "email",
+      payload: editEmail,
+    })
+  };
+
+  const onShowName = () => {
+    setShowName(true)
+  };
+
+  const onCloseName = () => {
+    setShowName(false)
+    dispatch({
+      type: "name",
+      payload: editName,
+    })
+  };
+
+  const onShowCompanyName = () => {
+    setShowCompanyName(true)
+  };
+
+  const onCloseCompanyName = () => {
+    setShowCompanyName(false)
+    dispatch({
+      type: "company",
+      payload: editCompanyName,
+    })
   };
 
   const onShowGander = () => {
@@ -80,13 +114,18 @@ const Profil = () => {
   };
 
   const handleChange = (Value) => {
-    setChangeGander(Value)
+    dispatch({
+      type: 'gander',
+      payload: Value,
+    })
     setShowGander(false)
   }
 
   return (
     <View style={style.box}>
-
+      <View style={style.image}>
+        <Image source={theme} />
+      </View>
       <View style={style.top}>
         <View style={style.avatar}>
           <Ionicons name="ios-person-outline" size={70} color="white" />
@@ -95,19 +134,83 @@ const Profil = () => {
           </View>
         </View>
         <View style={style.text}>
-          <Text style={style.text1}>Jaloliddin Zokirov</Text>
-          <Text style={style.text2}>Company: <Text style={style.text3}>Micromania</Text></Text>
+          <Text style={style.text1}>{name}</Text>
+          <Text style={style.text2}>Company: <Text style={style.text3}>{company}</Text></Text>
         </View>
       </View>
 
       <View style={style.center}>
 
         <SafeAreaView >
+          <TouchableWithoutFeedback onPress={onShowName}>
+            <View style={style.centerTop}>
+              <Text style={style.centerText1}>Name:</Text>
+              <View style={style.centerEmail}>
+                <Text style={style.email}>{name}</Text>
+                <MaterialIcons name="keyboard-arrow-right" size={24} color="#00000077" />
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </SafeAreaView>
+
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={showName}
+          onRequestClose={onCloseName}
+        >
+          <View style={{ flex: 1, backgroundColor: '#000000AA', justifyContent: 'flex-end', }}>
+            {renderOutsideTouchable(onCloseName)}
+            <View style={style.changeBig}>
+              <View style={style.changeBoxEmail}>
+                <Text style={style.emailTitle}>Name</Text>
+                <TextInput style={style.emailModal} keyboardType='default' onChange={item => { setEditName(item.nativeEvent.text) }} placeholder='Enter your user name'></TextInput>
+                <TouchableOpacity onPress={onCloseName}>
+                  <Text style={style.save}>SAVE</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
+
+        <SafeAreaView >
+          <TouchableWithoutFeedback onPress={onShowCompanyName}>
+            <View style={style.centerTop}>
+              <Text style={style.centerText1}>Company Name:</Text>
+              <View style={style.centerEmail}>
+                <Text style={style.email}>{company}</Text>
+                <MaterialIcons name="keyboard-arrow-right" size={24} color="#00000077" />
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </SafeAreaView>
+
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={showCompanyName}
+          onRequestClose={onCloseCompanyName}
+        >
+          <View style={{ flex: 1, backgroundColor: '#000000AA', justifyContent: 'flex-end', }}>
+            {renderOutsideTouchable(onCloseCompanyName)}
+            <View style={style.changeBig}>
+              <View style={style.changeBoxEmail}>
+                <Text style={style.emailTitle}>Company Name</Text>
+                <TextInput style={style.emailModal} keyboardType='default' onChange={item => { setEditCompanyName(item.nativeEvent.text) }} placeholder='Enter your Company name'></TextInput>
+                <TouchableOpacity onPress={onCloseCompanyName}>
+                  <Text style={style.save}>SAVE</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
+
+        <SafeAreaView >
           <TouchableWithoutFeedback onPress={onShowEmail}>
             <View style={style.centerTop}>
               <Text style={style.centerText1}>Email:</Text>
               <View style={style.centerEmail}>
-                <Text style={style.email}>{editEmail}</Text>
+                <Text style={style.email}>{email}</Text>
                 <MaterialIcons name="keyboard-arrow-right" size={24} color="#00000077" />
               </View>
             </View>
@@ -139,7 +242,7 @@ const Profil = () => {
             <View style={style.centerCenter}>
               <Text style={style.centerText1}>Date of birth:</Text>
               <View style={style.centerEmail}>
-                <Text style={style.email}>{dateOfBrith}</Text>
+                <Text style={style.email}>{dateOfBirth}</Text>
                 <MaterialIcons name="keyboard-arrow-right" size={24} color="#00000077" />
               </View>
             </View>
@@ -155,7 +258,7 @@ const Profil = () => {
             <View style={style.centerBottom}>
               <Text style={style.centerText1}>Gander:</Text>
               <View style={style.centerEmail}>
-                <Text style={style.email}>{changeGander}</Text>
+                <Text style={style.email}>{gander}</Text>
                 <MaterialIcons name="keyboard-arrow-right" size={24} color="#00000077" />
               </View>
             </View>
@@ -248,6 +351,17 @@ const style = StyleSheet.create({
   box: {
     height: "100%",
     alignItems: "center",
+    marginTop: 40,
+  },
+  image: {
+    position: 'absolute',
+    zIndex: -1,
+    top: -100,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
   },
   top: {
     marginTop: 40,
@@ -350,29 +464,32 @@ const style = StyleSheet.create({
     fontSize: 22,
     fontWeight: "700",
     textAlign: "center",
+    color: 'white',
   },
   text2: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#727272",
+    color: "#ccc",
   },
   text3: {
     textAlign: "center",
     fontSize: 18,
-    color: "#000",
+    color: "#fff",
   },
   center: {
     width: "90%",
     backgroundColor: "#0E89CBEE",
     marginTop: 30,
-    padding: 20,
+    paddingTop: 10,
+    paddingBottom: 20,
+    paddingHorizontal: 20,
     borderRadius: 20,
   },
   centerTop: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingBottom: 14,
+    paddingVertical: 14,
     borderBottomWidth: 1,
     borderBottomColor: "#00000077",
   },
@@ -402,7 +519,7 @@ const style = StyleSheet.create({
   email: {
     fontWeight: "600",
     fontSize: 16,
-    color: "#00000077",
+    color: "#000000DD",
   },
   bottom: {
     width: "90%",

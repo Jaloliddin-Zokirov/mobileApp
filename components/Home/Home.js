@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { StoreContext } from '../StoreWrapper/StoreWrapper';
 import { AntDesign } from '@expo/vector-icons';
 import { View, Text, Image, StyleSheet, SafeAreaView, TouchableWithoutFeedback, Dimensions } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
@@ -22,11 +23,11 @@ import CardColor7 from '../../assets/color_7.jpg'
 import CardColor8 from '../../assets/color_8.jpg'
 
 const deviceheight = Dimensions.get('window').height;
-const { width } = Dimensions.get('window')
 
 const Home = () => {
 
   const [change, setChange] = useState(CardBg1);
+  const { dispatch, theme, money, dateOfBirth, name, themeColor } = useContext(StoreContext)
 
   const CardBgImage = [
     CardBg1,
@@ -49,24 +50,41 @@ const Home = () => {
     CardColor8,
   ]
 
+  useEffect(() => {
+    dispatch({
+      type: "theme",
+      payload: change,
+    })
+  }, [change, money])
+
+  function formatNumberWithSpaces(number) {
+    const str = number.toString();
+
+    const formattedStr = str.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
+    return formattedStr;
+  }
+
+  const formattedNumber = formatNumberWithSpaces(money);
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, themeColor === true && styles.bgColor]}>
 
       <View style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, zIndex: 4 }}>
         <View style={styles.box}>
           <View style={styles.curtainBox}>
             <View style={styles.curtain} />
-            <Image source={change} style={styles.image1} />
+            <Image source={theme} style={styles.image1} />
           </View>
           <View style={styles.box2}>
-            <Image source={change} style={styles.image2} />
+            <Image source={theme} style={styles.image2} />
             <View style={styles.box3}>
-              <Text style={styles.text1}>1 000 000 000$</Text>
+              <Text style={styles.text1}>{formattedNumber}</Text>
             </View>
 
             <View style={styles.box4}>
-              <Text style={styles.text2}>Zokirov J</Text>
-              <Text style={styles.text2}>19/08/03</Text>
+              <Text style={styles.text2}>{name}</Text>
+              <Text style={styles.text2}>{dateOfBirth}</Text>
             </View>
           </View>
         </View>
@@ -74,15 +92,10 @@ const Home = () => {
         <View style={styles.box5}>
 
           <SafeAreaView>
-            <Text style={{color: 'black', fontWeight: '600', fontSize: 17, marginLeft: 10 }}>Choos colors</Text>
+            <Text style={[styles.choosColor, themeColor === true && styles.textLight]}>Choos colors</Text>
             <FlatList
               data={CardBgColor}
-              showsHorizontalScrollIndicator={false}
-              snapToOffsets={[...Array(CardBgColor.length)].map((x, i) => i * (width * 0.8 - 40) + (i - 1) * 40)}
               horizontal
-              snapToAlignment='start'
-              scrollEventThrottle={16}
-              decelerationRate={'fast'}
               style={{ marginTop: 7 }}
               renderItem={({ item }) => (
                 <TouchableWithoutFeedback onPress={() => setChange(item)}>
@@ -109,15 +122,10 @@ const Home = () => {
           </SafeAreaView>
 
           <SafeAreaView>
-            <Text style={{color: 'black', fontWeight: '600', fontSize: 17, marginTop: 15, marginLeft: 10}}>Choos image</Text>
+            <Text style={[styles.choosColor, themeColor === true && styles.textLight]}>Choos image</Text>
             <FlatList
               data={CardBgImage}
-              showsHorizontalScrollIndicator={false}
-              snapToOffsets={[...Array(CardBgImage.length)].map((x, i) => i * (width * 0.8 - 40) + (i - 1) * 40)}
               horizontal
-              snapToAlignment='start'
-              scrollEventThrottle={16}
-              decelerationRate={'fast'}
               style={{ marginTop: 7 }}
               renderItem={({ item }) => (
                 <TouchableWithoutFeedback onPress={() => setChange(item)}>
@@ -154,6 +162,7 @@ const styles = StyleSheet.create({
   container: {
     position: 'relative',
     height: "100%",
+    backgroundColor: 'white'
   },
   box: {
     position: "relative",
@@ -170,6 +179,13 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderWidth: 2,
     borderColor: "#0E89CB",
+  },
+  choosColor: {
+    marginTop: 20,
+    marginLeft: 10,
+    fontWeight: '600',
+    fontSize: 17,
+    color: 'black',
   },
   changeBig: {
     backgroundColor: 'gray',
@@ -233,7 +249,7 @@ const styles = StyleSheet.create({
     height: "70%",
     display: "flex",
     justifyContent: "center",
-    marginLeft: 35,
+    marginHorizontal: 35,
   },
   modalBox: {
     position: 'absolute',
@@ -245,6 +261,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 600,
     color: "#fff",
+    textAlign: 'right'
   },
   box4: {
     display: "flex",
@@ -270,7 +287,7 @@ const styles = StyleSheet.create({
     paddingRight: 0,
   },
   text2: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 600,
     color: "#fff",
   },
@@ -288,6 +305,11 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-
+  },
+  bgColor: {
+    backgroundColor: '#111'
+  },
+  textLight: {
+    color: 'white'
   }
 })
